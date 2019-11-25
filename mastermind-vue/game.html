@@ -1,0 +1,88 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mastermind</title>
+    <style type="text/css">
+        @import url('css/bootstrap.css');
+        @import url('css/bootstrap-theme.css');
+        @import url('css/toastr.css');
+    </style>
+    <script type="text/javascript" src="js/lib/jquery-1.11.3.js"></script>
+    <script type="text/javascript" src="js/lib/bootstrap.js"></script>
+    <script type="text/javascript" src="js/lib/toastr.min.js"></script>
+    <script type="text/javascript" src="js/lib/bignumber.min.js"></script>
+    <script type="text/javascript" src="js/lib/vue.js"></script>
+    <script type="application/javascript" src="js/number-util.js"></script>
+    <script type="application/javascript" src="js/toastr-util.js"></script>
+    <script type="application/javascript" src="js/game.js"></script>
+</head>
+<body>
+<p/>
+<div id="app" class="container" role="main">
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <h3 class="panel-title">Game Panel</h3>
+        </div>
+        <div class="panel-body">
+            <div class="form-group">
+                <label for="tries">Tries</label>
+                <span id="tries" class="badge">{{tries}}</span>
+                <div class="progress">
+                    <div v-bind:class="getProgressBarClass"
+                         v-bind:style="{ width: getProgressBarWidth}"
+                         id="counter" role="progressbar"
+                         aria-valuenow="0" aria-valuemin="0" aria-valuemax="16" style="width: 0%;"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="wins">Wins</label>
+                <span id="wins" class="badge">{{wins}}</span>
+            </div>
+            <div class="form-group">
+                <label for="loses">Loses</label>
+                <span id="loses" class="badge">{{loses}}</span>
+            </div>
+            <div class="form-group">
+                <label for="avgWinsTimeBadge">Average Wins Time</label>
+                <span id="avgWinsTimeBadge" class="badge">{{averageWinsTime}}</span>
+            </div>
+            <div class="form-group">
+                <label for="guess">Guess</label>
+                <input type="number" id="guess" v-model="guess" min="123" max="987" class="form-control"/>
+            </div>
+            <div class="form-group">
+                <button id="playButton" @click="play()" class="btn btn-success">Play
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-success" v-if="moves.length>0">
+        <div class="panel-heading">
+            <h3 class="panel-title">Moves</h3>
+        </div>
+        <div class="panel-body">
+            <table class="table table-striped" id="movies">
+                <thead>
+                <tr>
+                    <th>Guess</th>
+                    <th>Evaluation</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="move in moves">
+                    <td>{{move.guess}}</td>
+                    <td>
+                        <span class="label label-danger" v-if="move.partialMatch>0">{{move.partialMatch}}</span>
+                        <span class="label label-success" v-if="move.perfectMatch>0">{{move.perfectMatch}}</span>
+                        <span class="label label-warning" v-if="move.perfectMatch==0 && move.partialMatch==0">No Match</span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>
